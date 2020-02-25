@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-boot-docker-deployment
+  labels:
+    app: spring-boot-docker
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: spring-boot-docker
+  template:
+    metadata:
+      labels:
+        app: spring-boot-docker
+    spec:
+      containers:
+      - name: spring-boot-docker
+        image: shashikantsweden/repo:spring-boot-docker
+        ports:
+        - containerPort: 8085
+      imagePullSecrets:
+      - name: regcred  
