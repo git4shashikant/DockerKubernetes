@@ -1,10 +1,10 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: spring-boot-docker-service
+  name: docker-kubernetes-service
 spec:
   selector:
-    app: spring-boot-docker
+    app: docker-kubernetes
   ports:
   - protocol: TCP
     port: 8085
