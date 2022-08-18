@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: "sskubecluster-bec9"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: "sskubecluster-bec9"
+  template:
+    metadata:
+      labels:
+        app: "sskubecluster-bec9"
+    spec:
+      containers:
+        - name: "sskubecluster-bec9"
+          image: "sskubecr.azurecr.io/sskubecluster"
+          ports:
+          - containerPort: 8085
