@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
       - name: docker-kubernetes
-        image: shashikantsweden/repo:docker-kubernetes
+        image: shashikantsweden/docker-kubernetes
         ports:
-        - containerPort: 8085
+        - containerPort: 8080
       imagePullSecrets:
       - name: docker-hub-secret
