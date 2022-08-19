@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: docker-kubernetes
-        image: shashikantsweden/docker-kubernetes:$(Build.BuildId)
+        image: shashikantsweden/docker-kubernetes
         ports:
         - containerPort: 8080
       imagePullSecrets:
