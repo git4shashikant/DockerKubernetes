@@ -1,12 +1,10 @@
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
   name: docker-kubernetes-service
 spec:
-  type: LoadBalancer
   selector:
-    app: docker-kubernetes
+    name: docker-kubernetes
   ports:
-  - protocol: TCP
-    port: 8085
-    targetPort: 8085
+    - port: 80
+      targetPort: 8080
