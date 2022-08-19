@@ -4,6 +4,7 @@ metadata:
   name: docker-kubernetes-ingress
 spec:
   rules:
+  - host: docker-kubernetes.info
   - http:
       paths:
       - backend:
