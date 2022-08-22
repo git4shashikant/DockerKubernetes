@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: "sskubecluster-5b22"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: "sskubecluster-5b22"
+  template:
+    metadata:
+      labels:
+        app: "sskubecluster-5b22"
+    spec:
+      containers:
+        - name: "sskubecluster-5b22"
+          image: "sskuberegistry.azurecr.io/sskubecluster"
+          ports:
+          - containerPort: 8085
