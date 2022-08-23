@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: docker-kubernetes
-        image: shashikantsweden/docker-kubernetes
+        image: shashikantsweden/docker-kubernetes:1050461
         ports:
         - containerPort: 8080
       imagePullSecrets:
