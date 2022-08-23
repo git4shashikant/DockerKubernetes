@@ -3,6 +3,7 @@ jobs:
   displayName: Deploy to AKS
   pool:
     vmImage: ubuntu-latest
+  environment: ss-kube  
   strategy:
     runOnce:
       deploy:
