@@ -51,6 +51,7 @@ jobs:
             action: deploy
             namespace: ss-kube-ns
             manifests: kubernetes-*.yaml
+            containers: shashikantsweden/docker-kubernetes:$(Build.BuildId)
             kubernetesServiceConnection: ss-kube-connection
             imagePullSecrets: |
                     dokcer-hub-secret
