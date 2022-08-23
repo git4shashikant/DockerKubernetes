@@ -44,6 +44,7 @@ jobs:
               secretType: dockerRegistry
               secretName: dokcer-hub-secret
               dockerRegistryEndpoint: c9bfb9dd-b8c6-4e06-9fea-2b5fc24f4f4d
+              kubernetesServiceConnection: ss-kube-connection
         - task: KubernetesManifest@0
           displayName: deploy
           inputs:
