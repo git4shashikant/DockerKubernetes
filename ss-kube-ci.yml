@@ -49,6 +49,6 @@ jobs:
             action: deploy
             namespace: ss-kube-ns
             manifests: kubernetes-deloyment.yaml|kubernetes-service.yaml
-            kubernetesServiceConnection: b48e53dd-f2de-40fe-a849-a3dd4dbf7fd5
+            kubernetesServiceConnection: ss-kube-connection
             imagePullSecrets: |
                     dokcer-hub-secret
