@@ -1,0 +1,54 @@
+jobs:
+- deployment:
+  displayName: Deploy to AKS
+  pool:
+    vmImage: ubuntu-latest
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - checkout: self
+          clean: true
+          fetchTags: false
+        - task: Maven@3
+          displayName: Maven pom.xml
+          inputs:
+            publishJUnitResults: false
+        - task: Docker@0
+          displayName: Build an image
+          inputs:
+            containerregistrytype: Container Registry
+            dockerRegistryEndpoint: c9bfb9dd-b8c6-4e06-9fea-2b5fc24f4f4d
+            imageName: shashikantsweden/docker-kubernetes:$(Build.BuildId)
+        - task: Docker@2
+          displayName: login
+          inputs:
+            containerRegistry: c9bfb9dd-b8c6-4e06-9fea-2b5fc24f4f4d
+            repository: docker-kubernetes
+            command: login
+            addPipelineData: false
+            addBaseImageData: false
+        - task: Docker@0
+          displayName: Push an image
+          inputs:
+            containerregistrytype: Container Registry
+            dockerRegistryEndpoint: c9bfb9dd-b8c6-4e06-9fea-2b5fc24f4f4d
+            action: Push an image
+            imageName: shashikantsweden/docker-kubernetes:$(Build.BuildId)
+        - task: KubernetesManifest@0
+          displayName: Create secret
+          inputs: 
+              action: createSecret
+              namespace: ss-kube-ns
+              secretType: dockerRegistry
+              secretName: dokcer-hub-secret
+              dockerRegistryEndpoint: c9bfb9dd-b8c6-4e06-9fea-2b5fc24f4f4d
+        - task: KubernetesManifest@0
+          displayName: deploy
+          inputs:
+            action: deploy
+            namespace: ss-kube-ns
+            manifests: kubernetes-deloyment.yaml|kubernetes-service.yaml
+            kubernetesServiceConnection: b48e53dd-f2de-40fe-a849-a3dd4dbf7fd5
+            imagePullSecrets: |
+                    dokcer-hub-secret
