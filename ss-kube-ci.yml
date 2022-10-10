@@ -19,12 +19,12 @@ jobs:
           displayName: Build an image
           inputs:
             containerregistrytype: Container Registry
-            dockerRegistryEndpoint: c9bfb9dd-b8c6-4e06-9fea-2b5fc24f4f4d
+            dockerRegistryEndpoint: <dockerRegistryEndpoint>
             imageName: shashikantsweden/docker-kubernetes:$(Build.BuildId)
         - task: Docker@2
           displayName: login
           inputs:
-            containerRegistry: c9bfb9dd-b8c6-4e06-9fea-2b5fc24f4f4d
+            containerRegistry: <dockerRegistryEndpoint>
             repository: docker-kubernetes
             command: login
             addPipelineData: false
@@ -33,7 +33,7 @@ jobs:
           displayName: Push an image
           inputs:
             containerregistrytype: Container Registry
-            dockerRegistryEndpoint: c9bfb9dd-b8c6-4e06-9fea-2b5fc24f4f4d
+            dockerRegistryEndpoint: <dockerRegistryEndpoint>
             action: Push an image
             imageName: shashikantsweden/docker-kubernetes:$(Build.BuildId)
         - task: KubernetesManifest@0
@@ -43,7 +43,7 @@ jobs:
               namespace: ss-kube-ns
               secretType: dockerRegistry
               secretName: dokcer-hub-secret
-              dockerRegistryEndpoint: c9bfb9dd-b8c6-4e06-9fea-2b5fc24f4f4d
+              dockerRegistryEndpoint: <dockerRegistryEndpoint>
               kubernetesServiceConnection: ss-kube-connection
         - task: KubernetesManifest@0
           displayName: deploy
