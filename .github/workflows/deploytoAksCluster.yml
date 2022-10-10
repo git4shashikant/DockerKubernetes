@@ -17,44 +17,44 @@ jobs:
       
     - uses: azure/docker-login@v1
       with:
-        login-server: sskuberegistry.azurecr.io
+        login-server: <container-registry-url>
         username: ${{ secrets.acr_sskuberegistry_username }}
         password: ${{ secrets.acr_sskuberegistry_password }}
     
     - name: Build and push image to ACR
       id: build-image
       run: |
-        docker build "$GITHUB_WORKSPACE/" -f  "Dockerfile" -t sskuberegistry.azurecr.io/sskubecluster:${{ github.sha }} --label dockerfile-path=Dockerfile
-        docker push sskuberegistry.azurecr.io/sskubecluster:${{ github.sha }}
+        docker build "$GITHUB_WORKSPACE/" -f  "Dockerfile" -t <container-registry-url>/<clusterName>:${{ github.sha }} --label dockerfile-path=Dockerfile
+        docker push <container-registry-url>/<clusterName>:${{ github.sha }}
     
     - uses: azure/k8s-set-context@v1
       with:
-         kubeconfig: ${{ secrets.aks_sskubecluster_kubeConfig }}
+         kubeconfig: ${{ secrets.aks_<clusterName>_kubeConfig }}
       id: login
     
     - name: Create namespace
       run: |
-        namespacePresent=`kubectl get namespace | grep ss-kube-ns | wc -l`
+        namespacePresent=`kubectl get namespace | grep <nameSpaceName> | wc -l`
         if [ $namespacePresent -eq 0 ]
         then
-            echo `kubectl create namespace ss-kube-ns`
+            echo `kubectl create namespace <nameSpaceName>`
         fi
 
     - uses: azure/k8s-create-secret@v1
       with:
-        namespace: ss-kube-ns
-        container-registry-url: sskuberegistry.azurecr.io
+        namespace: <nameSpaceName>
+        container-registry-url: <container-registry-url>
         container-registry-username: ${{ secrets.acr_sskuberegistry_username }}
         container-registry-password: ${{ secrets.acr_sskuberegistry_password }}
-        secret-name: sskubeclustedockerauth
+        secret-name: dockerauth
        
     - uses: azure/k8s-deploy@v1.2
       with:
-        namespace: ss-kube-ns
+        namespace: <nameSpaceName>
         manifests: |
           manifests/deployment.yml
           manifests/service.yml
         images: |
-          sskuberegistry.azurecr.io/sskubecluster:${{ github.sha }}
+          <container-registry-url>/<clusterName>:${{ github.sha }}
         imagepullsecrets: |
-          sskubeclustedockerauth
+          dockerauth
